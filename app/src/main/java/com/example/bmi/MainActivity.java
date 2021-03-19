@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             weight = Float.parseFloat(weightInput.getText().toString());
             height = Float.parseFloat(heightInput.getText().toString()) / 100;
             float bmi = weight / (height * height);
-            if (bmi <= 18.5) {
+            if (bmi > 0 && bmi <= 18.5) {
                 resultText = "You are underweight";
             } else if (bmi > 18.5 && bmi <= 25) {
                 resultText = "Your weight is fine";

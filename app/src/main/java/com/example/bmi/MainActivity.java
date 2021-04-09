@@ -1,9 +1,12 @@
 package com.example.bmi;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -16,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button LocationPageButton = findViewById(R.id.btnLocationPage);
+        LocationPageButton.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, FoodActivity.class);
+            startActivity(i);
+        });
     }
 
     public void calculate(View view) {
@@ -28,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         String resultText;
         try {
             weight = Float.parseFloat(weightInput.getText().toString());
-            height = Float.parseFloat(heightInput.getText().toString()) / 100;
-            float bmi = weight / (height * height);
+            height = Float.parseFloat(heightInput.getText().toString());
+            float bmi = weight / ((height / 100) * (height / 100));
             if (bmi > 0 && bmi <= 18.5) {
                 resultText = "You are underweight";
             } else if (bmi > 18.5 && bmi <= 25) {
@@ -45,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         EditText ageInput = findViewById(R.id.age);
         int age = Integer.parseInt(ageInput.getText().toString());
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioSex);
+        RadioGroup radioGroup = findViewById(R.id.radioSex);
         int selectedId = radioGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton) findViewById(selectedId);
+        RadioButton radioButton = findViewById(selectedId);
 
         double kcal = 0;
         if (radioButton.getText().equals(Gender.Male.toString())) {
@@ -55,7 +63,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (radioButton.getText().equals(Gender.Female.toString())) {
             kcal = 655.0955 + 9.5634 * weight + 1.8496 * height - 4.6756 * age;
         }
+
         resultOutput.setText(resultText);
         kcalOutput.setText(String.format("%s kcal", kcal));
+
+
     }
 }

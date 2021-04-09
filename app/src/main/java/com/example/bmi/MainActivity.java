@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
         EditText weightInput = findViewById(R.id.weight);
         EditText heightInput = findViewById(R.id.height);
         TextView resultOutput = findViewById(R.id.result);
-        float weight;
-        float height;
+        TextView kcalOutput = findViewById(R.id.kcal);
+        float weight = 0;
+        float height = 0;
         String resultText;
         try {
             weight = Float.parseFloat(weightInput.getText().toString());
@@ -38,6 +42,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             resultText = "Incorrect data provided";
         }
+
+        EditText ageInput = findViewById(R.id.age);
+        int age = Integer.parseInt(ageInput.getText().toString());
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioSex);
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        RadioButton radioButton = (RadioButton) findViewById(selectedId);
+
+        double kcal = 0;
+        if (radioButton.getText().equals(Gender.Male.toString())) {
+            kcal = 66.4730 + 13.7516 * weight + 5.0033 * height - 6.7550 * age;
+        } else if (radioButton.getText().equals(Gender.Female.toString())) {
+            kcal = 655.0955 + 9.5634 * weight + 1.8496 * height - 4.6756 * age;
+        }
         resultOutput.setText(resultText);
+        kcalOutput.setText(String.format("%s kcal", kcal));
     }
 }

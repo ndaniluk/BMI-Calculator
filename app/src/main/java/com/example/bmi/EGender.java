@@ -1,6 +1,6 @@
 package com.example.bmi;
 
-public enum Gender {
+public enum EGender {
     Male,
     Female
 }

@@ -1,8 +1,10 @@
 package com.example.bmi;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -10,6 +12,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FoodActivity extends AppCompatActivity {
 
@@ -58,5 +68,33 @@ public class FoodActivity extends AppCompatActivity {
         kcalOutput.setText(String.format("You should eat %s kcal a day", kcal));
 
         dishOutput.setText(String.format("Dish for you - %s", dishText));
+
+        List<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry(22.0f, "USA"));
+        entries.add(new PieEntry(11.24f, "India"));
+        entries.add(new PieEntry(9.79f, "Brazil"));
+        entries.add(new PieEntry(3.73f, "France"));
+        entries.add(new PieEntry(3.22f, "Russia"));
+        entries.add(new PieEntry(49.93f, "Others"));
+
+        PieDataSet set = new PieDataSet(entries, "Election Results");
+        set.setColors(
+                Color.rgb(255, 0, 0),
+                Color.rgb(128, 255, 0),
+                Color.rgb(0, 255, 128),
+                Color.rgb(0, 255, 255),
+                Color.rgb(0, 128, 255),
+                Color.rgb(0, 0, 255));
+        PieData data = new PieData(set);
+        PieChart pieChart = findViewById(R.id.coronaChart);
+        pieChart.setData(data);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.invalidate(); // refresh
+    }
+
+    public void openQuiz(View view) {
+        Intent i = new Intent(FoodActivity.this, QuizActivity.class);
+        startActivity(i);
     }
 }

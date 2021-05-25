@@ -1,37 +1,32 @@
-package com.example.bmi;
+package com.example.bmi
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 
-public class SplashScreen extends Activity {
-
-    private static final int splashScreenTimer = 2000;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splashscreen);
-
-        ActivityStarter starter = new ActivityStarter();
-        starter.start();
+class SplashScreen : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splashscreen)
+        val starter = ActivityStarter()
+        starter.start()
     }
 
-    private class ActivityStarter extends Thread {
-
-        @Override
-        public void run() {
+    private inner class ActivityStarter : Thread() {
+        override fun run() {
             try {
-                Thread.sleep(splashScreenTimer);
-            } catch (Exception e) {
-                Log.e("SplashScreen", e.getMessage());
+                sleep(splashScreenTimer.toLong())
+            } catch (e: Exception) {
+                Log.e("SplashScreen", e.message.toString())
             }
-
-            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-            SplashScreen.this.startActivity(intent);
-            SplashScreen.this.finish();
+            val intent = Intent(this@SplashScreen, MainActivity::class.java)
+            this@SplashScreen.startActivity(intent)
+            finish()
         }
     }
 
+    companion object {
+        private const val splashScreenTimer = 2000
+    }
 }

@@ -1,53 +1,45 @@
-package com.example.bmi;
+package com.example.bmi
 
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
     }
 
-    public void calculate(View view) {
-        EditText weightInput = findViewById(R.id.weight);
-        EditText heightInput = findViewById(R.id.height);
-        TextView resultOutput = findViewById(R.id.result);
-        EditText ageInput = findViewById(R.id.age);
-        int age = Integer.parseInt(ageInput.getText().toString());
-        RadioGroup radioGroup = findViewById(R.id.radioSex);
-        int selectedId = radioGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = findViewById(selectedId);
+    fun calculate(view: View?) {
+        val weightInput = findViewById<EditText?>(R.id.weight)
+        val heightInput = findViewById<EditText?>(R.id.height)
+        val resultOutput = findViewById<TextView?>(R.id.result)
+        val ageInput = findViewById<EditText?>(R.id.age)
+        val age: Int = ageInput?.text.toString().toInt()
+        val radioGroup = findViewById<RadioGroup?>(R.id.radioSex)
+        val selectedId = radioGroup?.checkedRadioButtonId
+        val radioButton = findViewById<RadioButton?>(selectedId!!)
         try {
             if (weightInput != null && heightInput != null && resultOutput != null) {
-
-                Intent i = new Intent(MainActivity.this, FoodActivity.class);
-                i.putExtra("weight", weightInput.getText().toString());
-                i.putExtra("height", heightInput.getText().toString());
-                i.putExtra("age", String.valueOf(age));
-                i.putExtra("sex", radioButton.getText());
-                startActivity(i);
-
+                val i = Intent(this@MainActivity, FoodActivity::class.java)
+                i.putExtra("weight", weightInput.text.toString())
+                i.putExtra("height", heightInput.text.toString())
+                i.putExtra("age", age.toString())
+                if (radioButton != null) {
+                    i.putExtra("sex", radioButton.text)
+                }
+                startActivity(i)
             } else {
-                throw new NullPointerException();
+                throw NullPointerException()
             }
-        } catch (Exception e) {
-            Log.e("error", e.getMessage());
-            ScrollView sv = findViewById(R.id.scrollView);
-            sv.scrollTo(0, sv.getBottom());
-            resultOutput.setText("Incorrect data provided");
+        } catch (e: Exception) {
+            Log.e("error", e.message.toString())
+            val sv = findViewById<ScrollView?>(R.id.scrollView)
+            sv?.scrollTo(0, sv.bottom)
+            resultOutput?.text = "Incorrect data provided"
         }
     }
 }
